@@ -4,18 +4,29 @@
 #include<QLineEdit>
 #include<QGridLayout>
 #include<QPushButton>
+#include<QComboBox>
+#include<QLabel>
+#include<QDebug>
 
 
 class ConvertIt:public QWidget
 {
+    Q_OBJECT
 public:
-    ConvertIt(QWidget* parent=nullptr);
-    QWidget *_pMainWidget;
-    QLineEdit *_pLeftConversionText;
-    QLineEdit *_pRightConversionText;
-    QPushButton *_midChangeButton;
-    QGridLayout *_pGridLayout;
 
+    ConvertIt(QWidget* parent=nullptr);
+    ~ConvertIt(){}
+    QLineEdit *_pLeftConversionText;
+    QLabel *_pResultLabel;
+    QLabel *_pVarLabel1;
+    QLabel *_pVarLabel2;
+    QPushButton *_pConvertButton;
+    QPushButton *_pChangeButton;
+    QGridLayout *_pGridLayout;
+    QComboBox * _pComboBox1;
+
+public slots:
+    void ChangeResult();
 
 };
 
