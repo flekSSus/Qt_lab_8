@@ -26,7 +26,11 @@ public:
     QComboBox * _pComboBox1;
 
 public slots:
-    void ChangeResult();
+    void GiveResult();
+    void ChangeRoles();
+
+private:
+    int _variant{1};
 
 };
 
