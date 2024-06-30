@@ -3,6 +3,7 @@
 ConvertIt::ConvertIt(QWidget *parent):QWidget(parent)
 {
     CreateWindow();
+    CreateMenu();
 }
 void ConvertIt::GiveResult()
 {
@@ -25,10 +26,16 @@ void ConvertIt::GiveResult()
             break;
             case 2:
             result=_pLeftConversionText->text().toInt()*0.8;
-            break;
             default:
-            result=_pLeftConversionText->text().toInt()*0;
-            break;
+            {
+               int n= QMessageBox::critical(this,"WARNING!","There must be mistake"
+                                                    "in execution of program."
+                                                    "Further operation must make this"
+                                                       "program unstable, continue?",QMessageBox::Yes|QMessageBox::No);
+                if(n==QMessageBox::No)
+                   close();
+            }
+           break;
         }
     }else if(_variant==2)
     {
@@ -134,4 +141,35 @@ void ConvertIt::CreateWindow()
     this->setMinimumSize(500,300);
     this->setMaximumSize(500,300);
     this->setLayout(_pGridLayout);
+}
+void ConvertIt::CreateMenu()
+{
+    _pMBar=new QMenuBar(this);
+    _pMenuHelp=new QMenu("&Help");
+    _pMenuFile=new QMenu("&File");
+
+    //MenuBar
+    _pMBar->addMenu(_pMenuHelp);
+    _pMBar->addMenu(_pMenuFile);
+    _pMBar->resize(100,25);
+
+    //Menues
+    _pMenuHelp->addAction("How to use?");
+    _pMenuHelp->addAction("Report");
+
+    _pMenuFile->addAction("Save result",this,SLOT(SaveResult()),Qt::CTRL|Qt::Key_S);
+}
+void ConvertIt::SaveResult()
+{
+    QString savingDir(QFileDialog::getSaveFileName(nullptr,"Save result","resultOfConversion","*.txt"));
+    QFile file(savingDir);
+    QTextStream txtStream(&file);
+
+    file.open(QIODevice::WriteOnly|QIODevice::Text);
+    if(!file.isOpen())
+        return;
+    txtStream<<_pResultLabel->text();
+
+    file.close();
+    //QFileDialog *fileDialog =new QFileDialog;
 }

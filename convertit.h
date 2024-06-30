@@ -7,6 +7,12 @@
 #include<QComboBox>
 #include<QLabel>
 #include<QDebug>
+#include<QMenuBar>
+#include<QMenu>
+#include<QFileDialog>
+#include<QFile>
+#include<QTextStream>
+#include<QMessageBox>
 
 
 class ConvertIt:public QWidget
@@ -25,14 +31,19 @@ public:
     QGridLayout *_pGridLayout;
     QComboBox * _pComboBox1;
 
+    QMenuBar * _pMBar;
+    QMenu *_pMenuFile;
+    QMenu *_pMenuHelp;
 
 public slots:
     void GiveResult();
     void ChangeRoles();
 
+    void SaveResult();
 private:
     int _variant{1};
     void CreateWindow();
+    void CreateMenu();
 
 };
 
