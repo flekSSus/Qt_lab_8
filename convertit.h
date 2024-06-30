@@ -10,6 +10,8 @@
 #include<QMenuBar>
 #include<QMenu>
 #include<QFileDialog>
+#include<QPixmap>
+#include<QPainter>
 #include<QFile>
 #include<QTextStream>
 #include<QMessageBox>
@@ -38,6 +40,7 @@ public:
 public slots:
     void GiveResult();
     void ChangeRoles();
+    void ShowHelpPicture();
 
     void SaveResult();
 private:

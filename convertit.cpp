@@ -7,7 +7,7 @@ ConvertIt::ConvertIt(QWidget *parent):QWidget(parent)
 }
 void ConvertIt::GiveResult()
 {
-    int result=0;
+    qint16 result=0;
 
     if(_pResultLabel!=nullptr&&_pVarLabel1!=nullptr&&_pVarLabel2!=nullptr)
     {
@@ -26,11 +26,12 @@ void ConvertIt::GiveResult()
             break;
             case 2:
             result=_pLeftConversionText->text().toInt()*0.8;
+            break;
             default:
             {
                int n= QMessageBox::critical(this,"WARNING!","There must be mistake"
                                                     "in execution of program."
-                                                    "Further operation must make this"
+                                                    "Further operation must make this "
                                                        "program unstable, continue?",QMessageBox::Yes|QMessageBox::No);
                 if(n==QMessageBox::No)
                    close();
@@ -52,7 +53,14 @@ void ConvertIt::GiveResult()
             result=_pLeftConversionText->text().toInt()/0.8;
             break;
         default:
-            result=_pLeftConversionText->text().toInt()/0;
+        {
+            int n= QMessageBox::critical(this,"WARNING!","There must be mistake"
+                                                            "in execution of program."
+                                                            "Further operation must make this "
+                                                            "program unstable, continue?",QMessageBox::Yes|QMessageBox::No);
+            if(n==QMessageBox::No)
+                close();
+        }
             break;
         }
     }
@@ -62,8 +70,6 @@ void ConvertIt::GiveResult()
 }
 void ConvertIt::ChangeRoles()
 {
-
-    QString tmpStr1(_pVarLabel1->text()),tmpStr2(_pVarLabel2->text());
 
     _pGridLayout->removeWidget(_pVarLabel1);
     _pGridLayout->removeWidget(_pVarLabel2);
@@ -136,6 +142,7 @@ void ConvertIt::CreateWindow()
     connect(_pChangeButton,SIGNAL(clicked()),this,SLOT(ChangeRoles()));
 
     // THIS OBJ
+    this->setWindowTitle("ConvertIt!");
     this->resize(100,100);
     this->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
     this->setMinimumSize(500,300);
@@ -154,7 +161,7 @@ void ConvertIt::CreateMenu()
     _pMBar->resize(100,25);
 
     //Menues
-    _pMenuHelp->addAction("How to use?");
+    _pMenuHelp->addAction("How to use?",this,SLOT(ShowHelpPicture()));
     _pMenuHelp->addAction("Report");
 
     _pMenuFile->addAction("Save result",this,SLOT(SaveResult()),Qt::CTRL|Qt::Key_S);
@@ -171,5 +178,17 @@ void ConvertIt::SaveResult()
     txtStream<<_pResultLabel->text();
 
     file.close();
-    //QFileDialog *fileDialog =new QFileDialog;
+}
+void ConvertIt:: ShowHelpPicture()
+{
+    QPixmap * picture1=new QPixmap("refs/HelpPNG.png");
+    QLabel * label1=new QLabel();
+    label1->setWindowTitle("Help");
+    label1->resize(picture1->size());
+    label1->setPixmap(*picture1);
+    label1->setAlignment(Qt::AlignCenter);
+    picture1->scaled(label1->size(),Qt::KeepAspectRatio);
+    label1->setPixmap(*picture1);
+    label1->show();
+
 }
