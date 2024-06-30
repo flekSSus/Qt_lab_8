@@ -25,12 +25,14 @@ public:
     QGridLayout *_pGridLayout;
     QComboBox * _pComboBox1;
 
+
 public slots:
     void GiveResult();
     void ChangeRoles();
 
 private:
     int _variant{1};
+    void CreateWindow();
 
 };
 
